@@ -1,0 +1,76 @@
+2024/10/12 14:31:49 INFO: Application started
+2024/10/12 14:31:49 DEBUG: Debugging information
+2024/10/12 14:31:49 ERROR: An error occurred
+2024/10/12 14:31:55 Mock data has been generated.
+2024/10/12 14:34:15 INFO: Application started
+2024/10/12 14:34:15 DEBUG: Debugging information
+2024/10/12 14:34:15 ERROR: An error occurred
+2024/10/12 14:34:20 Mock data has been generated.
+2024/10/12 14:35:05 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:35:05 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:35:24 INFO: GET /api/cmdb/v1/cluster-groups
+2024/10/12 14:35:24 INFO: GET /api/cmdb/v1/server-resources
+2024/10/12 14:35:24 INFO: GET /api/cmdb/v1/cluster-groups
+2024/10/12 14:35:24 INFO: GET /api/cmdb/v1/server-resources
+2024/10/12 14:38:15 INFO: Application started
+2024/10/12 14:38:15 DEBUG: Debugging information
+2024/10/12 14:38:15 ERROR: An error occurred
+2024/10/12 14:38:20 Mock data has been generated.
+2024/10/12 14:38:29 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:38:29 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:38:33 INFO: GET /api/cmdb/v1/cluster-groups
+2024/10/12 14:38:33 INFO: GET /api/cmdb/v1/server-resources
+2024/10/12 14:38:33 INFO: GET /api/cmdb/v1/cluster-groups
+2024/10/12 14:38:33 INFO: GET /api/cmdb/v1/server-resources
+2024/10/12 14:41:31 INFO: Application started
+2024/10/12 14:41:31 DEBUG: Debugging information
+2024/10/12 14:41:31 ERROR: An error occurred
+2024/10/12 14:41:36 Mock data has been generated.
+2024/10/12 14:43:41 INFO: Application started
+2024/10/12 14:43:41 DEBUG: Debugging information
+2024/10/12 14:43:41 ERROR: An error occurred
+2024/10/12 14:43:44 INFO: Application started
+2024/10/12 14:43:44 DEBUG: Debugging information
+2024/10/12 14:43:44 ERROR: An error occurred
+2024/10/12 14:43:44 Failed to create application:Error 1146 (42S02): Table 'cmdb.hosts_applications' doesn't exist
+2024/10/12 14:43:49 Mock data has been generated.
+2024/10/12 14:45:28 INFO: Application started
+2024/10/12 14:45:28 DEBUG: Debugging information
+2024/10/12 14:45:28 ERROR: An error occurred
+2024/10/12 14:45:33 Mock data has been generated.
+2024/10/12 14:48:30 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:48:30 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:48:38 INFO: GET /api/cmdb/v1/cluster-groups
+2024/10/12 14:48:38 INFO: GET /api/cmdb/v1/server-resources
+2024/10/12 14:48:38 INFO: GET /api/cmdb/v1/cluster-groups
+2024/10/12 14:48:38 INFO: GET /api/cmdb/v1/server-resources
+2024/10/12 14:49:08 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:49:08 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:49:39 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:49:39 INFO: GET /api/cmdb/v1/get_hosts_pool_detail
+2024/10/12 14:50:55 INFO: GET /api/cmdb/v1/cluster-groups
+2024/10/12 14:50:56 INFO: GET /api/cmdb/v1/server-resources
+2024/10/12 14:50:56 INFO: GET /api/cmdb/v1/server-resources
+2024/10/12 14:50:56 INFO: GET /api/cmdb/v1/cluster-groups
+2024/10/12 14:52:17 INFO: Application started
+2024/10/12 14:52:17 DEBUG: Debugging information
+2024/10/12 14:52:17 ERROR: An error occurred
+2024/10/12 14:52:22 Mock data has been generated.
+2024/10/12 15:32:11 INFO: Application started
+2024/10/12 15:32:11 DEBUG: Debugging information
+2024/10/12 15:32:11 ERROR: An error occurred
+2024/10/12 15:32:16 Mock data has been generated.
+2024/10/12 15:34:01 Attempting to send email to: xjxyxgq@163.com, subject: 服务器资源使用情况报告
+2024/10/12 15:34:02 Error sending email: 535 Error: authentication failed
+2024/10/12 15:35:14 INFO: Application started
+2024/10/12 15:35:14 DEBUG: Debugging information
+2024/10/12 15:35:14 ERROR: An error occurred
+2024/10/12 15:35:19 Mock data has been generated.
+2024/10/12 15:35:40 Attempting to send email to: xjxyxgq@163.com, subject: 服务器资源使用情况报告
+2024/10/12 15:35:41 Error sending email: 535 Error: authentication failed
+2024/10/12 15:37:12 INFO: Application started
+2024/10/12 15:37:12 DEBUG: Debugging information
+2024/10/12 15:37:12 ERROR: An error occurred
+2024/10/12 15:37:17 Mock data has been generated.
+2024/10/12 15:37:25 Attempting to send email to: xjxyxgq@163.com, subject: 服务器资源使用情况报告
+2024/10/12 15:37:28 Email sent successfully
