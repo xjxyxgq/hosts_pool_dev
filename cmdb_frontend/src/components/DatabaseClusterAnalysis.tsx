@@ -9,15 +9,16 @@ import ResourceAlerts from './ResourceAlerts';
 import DiskFullPrediction from './DiskFullPrediction';
 import ClusterResourceDetail from './ClusterResourceDetail';
 import { ServerResource } from '../types/ServerResource';
-import dayjs, { Dayjs } from 'dayjs';
-import zhCN from 'antd/es/locale/zh_CN';
-import 'dayjs/locale/zh-cn';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import { SelectProps } from 'antd/lib/select';
 
-// 不要解构 Option，直接使用 Select.Option
 const { Header, Content } = Layout;
 const { RangePicker } = DatePicker;
+const { Option } = Select;
 
-dayjs.locale('zh-cn');
+moment.locale('zh-cn');
 
 interface ClusterGroup {
     id: number;
@@ -26,7 +27,7 @@ interface ClusterGroup {
     department_name: string;
 }
 
-type RangeValue = [Dayjs | null, Dayjs | null] | null;
+type RangeValue = [moment.Moment | null, moment.Moment | null] | null;
 
 const DatabaseClusterAnalysis: React.FC = () => {
     const [clusterGroups, setClusterGroups] = useState<ClusterGroup[]>([]);
@@ -207,39 +208,51 @@ const DatabaseClusterAnalysis: React.FC = () => {
     const uniqueClusterGroups = Array.from(new Set(clusterGroups.map(group => group.group_name)));
     const uniqueDepartments = Array.from(new Set(filteredDepartments));
 
+    const groupSelectProps: SelectProps<string[]> = {
+        mode: "multiple",
+        style: { width: '100%' },
+        placeholder: "选择集群组",
+        onChange: handleGroupChange,
+        value: selectedGroups,
+    };
+
+    const departmentSelectProps: SelectProps<string[]> = {
+        mode: "multiple",
+        style: { width: '100%' },
+        placeholder: "选择部门",
+        onChange: handleDepartmentChange,
+        value: selectedDepartments,
+    };
+
     return (
         <ConfigProvider locale={zhCN}>
             <Layout>
                 <Header>
                     <Row gutter={16}>
                         <Col span={8}>
-                            <Select
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                placeholder="选择集群组"
-                                onChange={handleGroupChange}
-                                value={selectedGroups}
-                            >
-                                {uniqueClusterGroups.map(groupName => (
-                                    <Select.Option key={groupName} value={groupName}>
-                                        {groupName}
-                                    </Select.Option>
-                                ))}
+                            <Select {...groupSelectProps}>
+                                {uniqueClusterGroups.length > 0 ? (
+                                    uniqueClusterGroups.map(groupName => (
+                                        <Option key={groupName} value={groupName}>
+                                            {groupName}
+                                        </Option>
+                                    ))
+                                ) : (
+                                    <Option value="" disabled>暂无数据</Option>
+                                )}
                             </Select>
                         </Col>
                         <Col span={8}>
-                            <Select
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                placeholder="选择部门"
-                                onChange={handleDepartmentChange}
-                                value={selectedDepartments}
-                            >
-                                {uniqueDepartments.map(departmentName => (
-                                    <Select.Option key={departmentName} value={departmentName}>
-                                        {departmentName}
-                                    </Select.Option>
-                                ))}
+                            <Select {...departmentSelectProps}>
+                                {uniqueDepartments.length > 0 ? (
+                                    uniqueDepartments.map(departmentName => (
+                                        <Option key={departmentName} value={departmentName}>
+                                            {departmentName}
+                                        </Option>
+                                    ))
+                                ) : (
+                                    <Option value="" disabled>暂无数据</Option>
+                                )}
                             </Select>
                         </Col>
                         <Col span={8}>

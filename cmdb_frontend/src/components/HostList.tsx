@@ -4,7 +4,24 @@ import axios from 'axios';
 import { Table, Input, Select, Button } from 'antd';
 import HostDetail from './HostDetail';
 
-const { Option } = Select; // 确保从 Select 中解构出 Option
+const { Option } = Select;
+
+interface Application {
+  id: number;
+  pool_id: number;
+  server_type: string;
+  server_version: string;
+  server_subtitle: string;
+  cluster_name: string;
+  server_protocol: string;
+  server_addr: string;
+  server_port: number;
+  server_role: string;
+  server_status: string;
+  department_name: string;
+  create_time: string;
+  update_time: string;
+}
 
 interface Host {
   id: number;
@@ -33,22 +50,21 @@ interface Host {
   host_applications: Application[];
 }
 
-interface Application {
-  id: number;
-  pool_id: number;
-  server_type: string;
-  server_version: string;
-  server_subtitle: string;
-  cluster_name: string;
-  server_protocol: string;
-  server_addr: string;
-  server_port: number;
-  server_role: string;
-  server_status: string;
-  department_name: string;
-  create_time: string;
-  update_time: string;
-}
+const getIDCNameFromIP = (ip: string): string => {
+  const parts = ip.split('.');
+  if (parts.length >= 2) {
+    switch (parts[1]) {
+      case '1': return 'P1';
+      case '2': return 'P2';
+      case '3': return 'P3';
+      case '4': return 'P4';
+      case '5': return 'P5';
+      case '6': return 'P6';
+      default: return 'Unknown-IDC';
+    }
+  }
+  return 'Unknown-IDC';
+};
 
 const HostList: React.FC = () => {
   const [hosts, setHosts] = useState<Host[]>([]);
@@ -62,29 +78,6 @@ const HostList: React.FC = () => {
   const [selectedHost, setSelectedHost] = useState<Host | null>(null);
   const [isCustomModalVisible, setIsCustomModalVisible] = useState(false);
 
-  const getIDCNameFromIP = (ip: string): string => {
-    const parts = ip.split('.');
-    if (parts.length >= 2) {
-      switch (parts[1]) {
-        case '1':
-          return 'P1';
-        case '2':
-          return 'P2';
-        case '3':
-          return 'P3';
-        case '4':
-          return 'P4';
-        case '5':
-          return 'P5';
-        case '6':
-          return 'P6';
-        default:
-          return 'Unknown-IDC';
-      }
-    }
-    return 'Unknown-IDC';
-  };
-
   useEffect(() => {
     setLoading(true);
     axios.get('/api/cmdb/v1/get_hosts_pool_detail')
@@ -97,8 +90,6 @@ const HostList: React.FC = () => {
         console.error('Error fetching hosts:', error);
         setError('Failed to fetch hosts data');
         setLoading(false);
-        setHosts([]);
-        setFilteredHosts([]);
       });
   }, []);
 
@@ -133,7 +124,7 @@ const HostList: React.FC = () => {
 
   useEffect(() => {
     applyFilters();
-  }, [ipFilter, datacenterFilter, appTypeFilter, departmentFilter, hosts, applyFilters]);
+  }, [applyFilters]);
 
   const showHostDetail = (host: Host) => {
     setSelectedHost(host);
@@ -189,14 +180,6 @@ const HostList: React.FC = () => {
     },
   ];
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
     <div>
       <div style={{ marginBottom: 16 }}>
@@ -207,10 +190,10 @@ const HostList: React.FC = () => {
           style={{ width: 200, marginRight: 8 }}
         />
         <Select
-          mode="multiple"
           placeholder="选择机房"
+          mode="multiple"
           value={datacenterFilter}
-          onChange={(value) => setDatacenterFilter(value)}
+          onChange={(value: string[]) => setDatacenterFilter(value)}
           style={{ width: 200, marginRight: 8 }}
         >
           <Option value="P1">P1</Option>
@@ -221,28 +204,28 @@ const HostList: React.FC = () => {
           <Option value="P6">P6</Option>
         </Select>
         <Select
-          mode="multiple"
           placeholder="应用类型"
+          mode="multiple"
           value={appTypeFilter}
-          onChange={(value) => setAppTypeFilter(value)}
+          onChange={(value: string[]) => setAppTypeFilter(value)}
           style={{ width: 200, marginRight: 8 }}
         >
           {Array.from(new Set(hosts.flatMap(host => 
-            host.host_applications ? host.host_applications.map(app => app.server_type) : []
-          ))).map(type => (
+            host.host_applications ? host.host_applications.map((app: Application) => app.server_type) : []
+          ))).map((type: string) => (
             <Option key={type} value={type}>{type}</Option>
           ))}
         </Select>
         <Select
-          mode="multiple"
           placeholder="所属部门"
+          mode="multiple"
           value={departmentFilter}
-          onChange={(value) => setDepartmentFilter(value)}
+          onChange={(value: string[]) => setDepartmentFilter(value)}
           style={{ width: 200, marginRight: 8 }}
         >
           {Array.from(new Set(hosts.flatMap(host => 
-            host.host_applications ? host.host_applications.map(app => app.department_name) : []
-          ))).map(dept => (
+            host.host_applications ? host.host_applications.map((app: Application) => app.department_name) : []
+          ))).map((dept: string) => (
             <Option key={dept} value={dept}>{dept}</Option>
           ))}
         </Select>
@@ -255,7 +238,7 @@ const HostList: React.FC = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={filteredHosts.map(host => ({ ...host, key: host.id }))}
+        dataSource={filteredHosts}
         rowKey="id"
         loading={loading}
         pagination={{

@@ -1,17 +1,7 @@
 // 集群资源使用情况组件
 import React, { useState } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
 import { Row, Col, Card, Table } from 'antd';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export interface ClusterResource {
   clusterName: string;
@@ -29,6 +19,9 @@ export interface ClusterResource {
   maxMemory: number;
   maxDisk: number;
   maxCPU: number;
+  minMemory: number;
+  minDisk: number;
+  minCPU: number;
 }
 
 interface ClusterResourceUsageProps {
@@ -39,53 +32,45 @@ const ClusterResourceUsage: React.FC<ClusterResourceUsageProps> = ({ data }) => 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
-  const renderClusterChart = (cluster: ClusterResource, index: number) => {
-    const chartData = {
-      labels: ['内存', '磁盘', 'CPU'],
-      datasets: [
-        {
-          label: '平均使用率',
-          data: [cluster.memory, cluster.disk, cluster.cpu],
-          backgroundColor: 'rgba(136, 132, 216, 0.6)',
-        },
-        {
-          label: '最大使用率',
-          data: [cluster.maxMemory, cluster.maxDisk, cluster.maxCPU],
-          backgroundColor: 'rgba(130, 202, 157, 0.6)',
-        },
-      ],
-    };
+  const renderClusterChart = (cluster: ClusterResource) => {
+    const roundToTwoDecimals = (value: number) => Math.round(value * 100) / 100;
 
-    const options = {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 100,
-          title: {
-            display: true,
-            text: '使用率 (%)'
-          }
-        }
+    const chartData = [
+      { 
+        name: 'CPU', 
+        平均: roundToTwoDecimals(cluster.cpu),
+        最大: roundToTwoDecimals(cluster.maxCPU),
+        最小: roundToTwoDecimals(cluster.minCPU)
       },
-      plugins: {
-        legend: {
-          position: 'top' as const,
-        },
-        title: {
-          display: true,
-          text: `${cluster.groupName}-${cluster.clusterName}`,
-        },
+      { 
+        name: '内存', 
+        平均: roundToTwoDecimals(cluster.memory),
+        最大: roundToTwoDecimals(cluster.maxMemory),
+        最小: roundToTwoDecimals(cluster.minMemory)
       },
-    };
+      { 
+        name: '磁盘', 
+        平均: roundToTwoDecimals(cluster.disk),
+        最大: roundToTwoDecimals(cluster.maxDisk),
+        最小: roundToTwoDecimals(cluster.minDisk)
+      },
+    ];
 
     return (
-      <Col key={`cluster-${index}`} xs={24} sm={12} md={8} lg={4} xl={4} style={{ marginBottom: '20px' }}>
-        <Card style={{ height: 350 }}>
-          <div style={{ height: 300 }}>
-            <Bar data={chartData} options={options} />
-          </div>
+      <Col xs={24} sm={12} md={8} lg={6} xl={4} xxl={4} style={{ marginBottom: '20px' }}>
+        <Card title={`${cluster.groupName}-${cluster.clusterName}`} style={{ height: 400 }}>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={chartData} barSize={30}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis domain={[0, 100]} tickFormatter={(value) => `${value}%`} />
+              <Tooltip formatter={(value) => `${value}%`} />
+              <Legend />
+              <Bar dataKey="平均" fill="#8884d8" name="平均使用率 (%)" />
+              <Bar dataKey="最大" fill="#82ca9d" name="最大使用率 (%)" />
+              <Bar dataKey="最小" fill="#ffc658" name="最小使用率 (%)" />
+            </BarChart>
+          </ResponsiveContainer>
         </Card>
       </Col>
     );
@@ -109,46 +94,46 @@ const ClusterResourceUsage: React.FC<ClusterResourceUsageProps> = ({ data }) => 
       dataIndex: 'memory',
       key: 'memory',
       sorter: (a: ClusterResource, b: ClusterResource) => a.memory - b.memory,
-      render: (value: number) => `${value.toFixed(2)}%`,
+      render: (value: number) => `${Math.round(value * 100) / 100}%`,
     },
     {
       title: '内存使用率 (最大)',
       dataIndex: 'maxMemory',
       key: 'maxMemory',
       sorter: (a: ClusterResource, b: ClusterResource) => a.maxMemory - b.maxMemory,
-      render: (value: number) => `${value.toFixed(2)}%`,
+      render: (value: number) => `${Math.round(value * 100) / 100}%`,
     },
     {
       title: '磁盘使用率 (平均)',
       dataIndex: 'disk',
       key: 'disk',
       sorter: (a: ClusterResource, b: ClusterResource) => a.disk - b.disk,
-      render: (value: number) => `${value.toFixed(2)}%`,
+      render: (value: number) => `${Math.round(value * 100) / 100}%`,
     },
     {
       title: '磁盘使用率 (最大)',
       dataIndex: 'maxDisk',
       key: 'maxDisk',
       sorter: (a: ClusterResource, b: ClusterResource) => a.maxDisk - b.maxDisk,
-      render: (value: number) => `${value.toFixed(2)}%`,
+      render: (value: number) => `${Math.round(value * 100) / 100}%`,
     },
     {
       title: 'CPU使用率 (平均)',
       dataIndex: 'cpu',
       key: 'cpu',
       sorter: (a: ClusterResource, b: ClusterResource) => a.cpu - b.cpu,
-      render: (value: number) => `${value.toFixed(2)}%`,
+      render: (value: number) => `${Math.round(value * 100) / 100}%`,
     },
     {
       title: 'CPU使用率 (最大)',
       dataIndex: 'maxCPU',
       key: 'maxCPU',
       sorter: (a: ClusterResource, b: ClusterResource) => a.maxCPU - b.maxCPU,
-      render: (value: number) => `${value.toFixed(2)}%`,
+      render: (value: number) => `${Math.round(value * 100) / 100}%`,
     },
   ];
 
-  // 对数据进行排序
+  // 对数据行排序
   const sortedData = [...data].sort((a, b) => {
     const aKey = `${a.groupName}-${a.clusterName}`;
     const bKey = `${b.groupName}-${b.clusterName}`;
@@ -164,12 +149,8 @@ const ClusterResourceUsage: React.FC<ClusterResourceUsageProps> = ({ data }) => 
   };
 
   return (
-    <Row gutter={16}>
-      <Col span={24}>
-        <Row gutter={[16, 16]}>
-          {currentPageData.map((cluster, index) => renderClusterChart(cluster, index))}
-        </Row>
-      </Col>
+    <Row gutter={[16, 16]}>
+      {currentPageData.map((cluster, index) => renderClusterChart(cluster))}
       <Col span={24}>
         <Table
           columns={columns}

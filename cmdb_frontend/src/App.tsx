@@ -1,25 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Tabs } from 'antd';
-import { TabsProps, TabPaneProps } from 'antd/lib/tabs';
 import HostList from './components/HostList';
 import DatabaseClusterAnalysis from './components/DatabaseClusterAnalysis';
 import './App.css';
 
 const { Header, Content } = Layout;
-const { TabPane } = Tabs; // Ensure compatibility with antd 3.x
-const tabsProps: TabsProps = {
-  defaultActiveKey: "1"
-};
+const { TabPane } = Tabs;
 
-const tabPane1Props: TabPaneProps = {
-  tab: "主机资源池",
-  key: "1"
-};
-
-const tabPane2Props: TabPaneProps = {
-  tab: "主机资源用量分析",
-  key: "2"
-};
 const App: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -53,14 +40,14 @@ const App: React.FC = () => {
       </Header>
       <Content style={{ padding: '0 50px' }}>
         <div className="site-layout-content">
-          <Tabs {...tabsProps}>
-            <TabPane {...tabPane1Props}>
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="主机资源池" key="1">
               <HostList />
             </TabPane>
-            <TabPane {...tabPane2Props}>
+            <TabPane tab="主机资源用量分析" key="2">
               <DatabaseClusterAnalysis />
             </TabPane>
-</Tabs>
+          </Tabs>
         </div>
       </Content>
     </Layout>
