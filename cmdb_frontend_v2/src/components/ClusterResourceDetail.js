@@ -1,0 +1,105 @@
+// 服务器资源详情组件
+import React from 'react';
+import { Table } from 'antd';
+
+const ClusterResourceDetail = ({ data, pagination = true }) => {
+  const columns = [
+    { 
+      title: 'ID', 
+      dataIndex: 'id', 
+      key: 'id',
+      sorter: (a, b) => a.id - b.id,
+    },
+    { 
+      title: 'Cluster Name', 
+      dataIndex: 'cluster_name', 
+      key: 'cluster_name',
+      sorter: (a, b) => a.cluster_name.localeCompare(b.cluster_name),
+    },
+    { 
+      title: 'Group Name', 
+      dataIndex: 'group_name', 
+      key: 'group_name',
+      sorter: (a, b) => a.group_name.localeCompare(b.group_name),
+    },
+    { 
+      title: 'IP', 
+      dataIndex: 'ip', 
+      key: 'ip',
+      sorter: (a, b) => a.ip.localeCompare(b.ip),
+    },
+    { 
+      title: 'Port', 
+      dataIndex: 'port', 
+      key: 'port',
+      sorter: (a, b) => a.port - b.port,
+    },
+    { 
+      title: 'Instance Role', 
+      dataIndex: 'instance_role', 
+      key: 'instance_role',
+      sorter: (a, b) => a.instance_role.localeCompare(b.instance_role),
+    },
+    { 
+      title: 'Total Memory (GB)', 
+      dataIndex: 'total_memory', 
+      key: 'total_memory', 
+      render: (value) => value.toFixed(2),
+      sorter: (a, b) => a.total_memory - b.total_memory,
+    },
+    { 
+      title: 'Used Memory (GB)', 
+      dataIndex: 'used_memory', 
+      key: 'used_memory', 
+      render: (value) => value.toFixed(2),
+      sorter: (a, b) => a.used_memory - b.used_memory,
+    },
+    { 
+      title: 'Total Disk (GB)', 
+      dataIndex: 'total_disk', 
+      key: 'total_disk', 
+      render: (value) => value.toFixed(2),
+      sorter: (a, b) => a.total_disk - b.total_disk,
+    },
+    { 
+      title: 'Used Disk (GB)', 
+      dataIndex: 'used_disk', 
+      key: 'used_disk', 
+      render: (value) => value.toFixed(2),
+      sorter: (a, b) => a.used_disk - b.used_disk,
+    },
+    { 
+      title: 'CPU Cores', 
+      dataIndex: 'cpu_cores', 
+      key: 'cpu_cores',
+      sorter: (a, b) => a.cpu_cores - b.cpu_cores,
+    },
+    { 
+      title: 'CPU Load (%)', 
+      dataIndex: 'cpu_load', 
+      key: 'cpu_load', 
+      render: (value) => value.toFixed(2),
+      sorter: (a, b) => a.cpu_load - b.cpu_load,
+    },
+    { 
+      title: 'Date Time', 
+      dataIndex: 'date_time', 
+      key: 'date_time',
+      sorter: (a, b) => new Date(a.date_time).getTime() - new Date(b.date_time).getTime(),
+    },
+  ];
+
+  return <Table 
+    columns={columns} 
+    dataSource={data} 
+    rowKey={(record) => `${record.id}-${record.ip}`} 
+    pagination={{
+      showSizeChanger: true,
+      showQuickJumper: true,
+      pageSizeOptions: ['5', '20', '50', '100', '500'],
+      defaultPageSize: 5,
+    }}
+  />;
+};
+
+export default ClusterResourceDetail;

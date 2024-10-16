@@ -74,3 +74,19 @@
 2024/10/12 15:37:17 Mock data has been generated.
 2024/10/12 15:37:25 Attempting to send email to: xjxyxgq@163.com, subject: 服务器资源使用情况报告
 2024/10/12 15:37:28 Email sent successfully
+2024/10/14 16:03:46 INFO: Application started
+2024/10/14 16:03:46 DEBUG: Debugging information
+2024/10/14 16:03:46 ERROR: An error occurred
+2024/10/14 16:03:46 Failed to connect database:dial tcp 127.0.0.1:3311: connect: connection refused
+2024/10/14 16:04:03 INFO: Application started
+2024/10/14 16:04:03 DEBUG: Debugging information
+2024/10/14 16:04:03 ERROR: An error occurred
+2024/10/14 16:04:08 Mock data has been generated.
+2024/10/14 17:06:26 INFO: Application started
+2024/10/14 17:06:26 DEBUG: Debugging information
+2024/10/14 17:06:26 ERROR: An error occurred
+2024/10/14 17:06:31 Mock data has been generated.
+2024/10/15 15:49:47 INFO: Application started
+2024/10/15 15:49:47 DEBUG: Debugging information
+2024/10/15 15:49:47 ERROR: An error occurred
+2024/10/15 15:49:52 Mock data has been generated.
